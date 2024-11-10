@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-section {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+                background-color: #218838;
+        }
+        ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+        li {
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <div class="input-section">
+           <input type="text" id="taskInput" placeholder="Enter a new task">
+           <button onclick="addTask()">Add Task</button>
+        </div>
+        <ul id="toDoList"></ul>
+    </div>
+    <script>
+        let toDoList = [];
+
+
+        function addTask() {
+            const taskInput = document.getElementById("taskInput");
+            const task = taskInput.value.trim();
+
+
+            if (task) {
+                toDoList.push({ text: task, completed: false });
+                taskInput.value = "";
+                displayList();
+            } else {
+                alert("Please enter a task.");
+            }
+        }
+
+        function removeTask(index) {
+            toDoList.splice(index, 1);
+            displayList();
+        }
+
+
+        function completeTask(index) {
+            toDoList[index].completed = !toDoList[index].completed;
+            displayList();
+        }
+
+
+        function displayList() {
+            const toDoListElement = document.getElementById("toDoList");
+            toDoListElement.innerHTML = "";
+
+
+            toDoList.forEach((task, index) => {
+                const listItem = document.createElement("li");
+
+
+                listItem.className = task.completed ? "completed" : "";
+
+
+                listItem.innerHTML = `
+                    <span onclick="completeTask(${index})">${task.text}</span>
+                    <button class="remove-btn" onclick="removeTask(${index})">Remove</button>
+                `;
+
+
+                toDoListElement.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>
